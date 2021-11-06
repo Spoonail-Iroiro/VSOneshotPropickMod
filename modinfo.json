@@ -1,9 +1,9 @@
 {
   "type": "code",
   "modid": "oneshotpropick",
-  "name": "oneshotpropick",
-  "author": "Unknown",
-  "description": "To be added",
+  "name": "One-shot Prospecting Pick",
+  "author": "Spoonail",
+  "description": "",
   "version": "1.0.0",
   "dependency": {
     "game": ""
