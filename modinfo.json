@@ -3,7 +3,7 @@
   "modid": "oneshotpropick",
   "name": "One-shot Prospecting Pick",
   "author": "Spoonail",
-  "description": "",
+  "description": "You can prospect by breaking one block with one-shot propick",
   "version": "1.0.0",
   "dependency": {
     "game": ""

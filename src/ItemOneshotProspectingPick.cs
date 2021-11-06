@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Server;
+using Vintagestory.API.Client;
 using Vintagestory.GameContent;
 using System.Reflection;
 
@@ -13,47 +14,65 @@ namespace oneshotpropick
 {
     public class ItemOneshotProspectingPick : ItemProspectingPick
     {
+        static Assembly _proinfoAssembly = null;
+
         public ItemOneshotProspectingPick():base()
         {
-            System.Diagnostics.Debug.WriteLine("Created!");
 
+        }
+
+        public override void OnLoaded(ICoreAPI api)
+        {
+            base.OnLoaded(api);
+
+            if (_proinfoAssembly == null) 
+            {
+                var assem = GetProspectingInfoAssembly();
+                if (assem != null)
+                {
+                    _proinfoAssembly = assem;
+                    if (api.Side == EnumAppSide.Server)
+                    {
+                        var sapi = api as ICoreServerAPI;
+                        sapi.Logger?.Notification($"Found ProspectorInfo!");
+                    }
+                    else if (api.Side == EnumAppSide.Client)
+                    {
+                        var capi = api as ICoreClientAPI;
+                        capi.Logger?.Notification($"Found ProspectorInfo!");
+                    }
+                }
+            }
+
+        }
+
+        protected Assembly GetProspectingInfoAssembly()
+        {
+            Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
+            var assem = asms.SingleOrDefault(assembly => assembly.GetName().Name == "ProspectorInfo");
+            return assem;
         }
 
         protected override void ProbeBlockDensityMode(IWorldAccessor world, Entity byEntity, ItemSlot itemslot, BlockSelection blockSel) 
         {
-            System.Diagnostics.Debug.WriteLine($"Invoked Side:{world.Side}");
-
             ProbeBlockDensityModeInternal(world, byEntity, itemslot, blockSel);
 
-            Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
-            /*            foreach (Assembly a in asms)
-                            System.Diagnostics.Debug.WriteLine(a.FullName);
-            */
-            var assem = asms.SingleOrDefault(assembly => assembly.GetName().Name == "ProspectorInfo");
-            //Type type = Type.GetType("ProspectorInfo.Map.ProspectorOverlayLayer, ProspectorInfo");
-            //System.Diagnostics.Debug.WriteLine($"OverlayLayer:{type == null}");
-            //var type = assem.GetType("ProspectorInfo.Map.ProspectorOverlayLayer+PrintProbeResultsPatch");
-            var type = Type.GetType("ProspectorInfo.Map.ProspectorOverlayLayer+PrintProbeResultsPatch,ProspectorInfo");
-            //var type = assem.GetType("ProspectorInfo.Map.ProspectorOverlayLayer");
-            MethodInfo meth = type.GetMethod("Postfix", BindingFlags.Static | BindingFlags.NonPublic);
-            //FieldInfo fi = type.GetField("blocksSinceLastSuccessList", BindingFlags.Static | BindingFlags.NonPublic);
-            //var val = fi.GetValue(null) as List<BlockSelection>;
+            if (_proinfoAssembly != null)
+            {
+                var type = _proinfoAssembly.GetType("ProspectorInfo.Map.ProspectorOverlayLayer+PrintProbeResultsPatch");
+                MethodInfo meth = type.GetMethod("Postfix", BindingFlags.Static | BindingFlags.NonPublic);
 
-            System.Diagnostics.Debug.WriteLine($"{world.Side}");
-            //System.Diagnostics.Debug.WriteLine($"pros:{val.Count}");
-            System.Diagnostics.Debug.WriteLine($"Hoge");
-            /*            val.Add(blockSel);
-                        val.Add(blockSel);
-                        val.Add(blockSel);
-            */
-            meth.Invoke(null, new object[] { world, byEntity, itemslot, blockSel });
-            meth.Invoke(null, new object[] { world, byEntity, itemslot, blockSel });
-            meth.Invoke(null, new object[] { world, byEntity, itemslot, blockSel });
-
+                // ProspectorInfo's Harmony postfix emulation
+                // ProspectorInfo requires 3 blockSel histories on Survival Mode
+                meth.Invoke(null, new object[] { world, byEntity, itemslot, blockSel });
+                meth.Invoke(null, new object[] { world, byEntity, itemslot, blockSel });
+                meth.Invoke(null, new object[] { world, byEntity, itemslot, blockSel });
+            }
         }
 
         protected virtual void ProbeBlockDensityModeInternal(IWorldAccessor world, Entity byEntity, ItemSlot itemslot, BlockSelection blockSel)
         {
+            // Vanilla propick operation with only one block breaking (same with Creative Mode)
 
             IPlayer byPlayer = null;
             if (byEntity is EntityPlayer) byPlayer = world.PlayerByUid(((EntityPlayer)byEntity).PlayerUID);
