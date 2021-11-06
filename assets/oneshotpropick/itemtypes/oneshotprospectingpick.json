@@ -1,0 +1,125 @@
+{
+	code: "oneshotprospectingpick",
+	storageFlags: 5,
+	class: "ItemOneshotProspectingPick",
+	attributes: {
+		toolrackTransform: {
+			rotation: { y: 1, z: -1 },
+			translation: { x: -0.3, y: 0.6 },
+			scale: 1.25,
+		},
+		slotRefillIdentifier: "oneshotpropick"
+	},
+	variantgroups: [
+		{ code: "metal", states: ["copper", "tinbronze", "bismuthbronze", "blackbronze", "gold", "silver", 
+															"iron", "meteoriciron", "steel"
+		  ] },
+	],
+	tool: "pickaxe",
+	damagedby: ["blockbreaking", "attacking"],
+	shape: { base: "game:item/tool/prospectingpick" },
+	heldTpHitAnimation: "breaktool",
+	texturesByType: {
+		"*": {
+			"metal": { base: "game:block/metal/ingot/{metal}" },
+			"handle": { base: "wood-dark" } 
+		}
+	},
+	tooltierbytype: {
+		"*-stone": 1,
+		"*-copper": 2,
+		"*-gold": 2,
+		"*-silver": 2,
+		"*-bismuthbronze": 3,
+		"*-tinbronze": 3,
+		"*-blackbronze": 3,
+		"*-iron": 4,
+		"*-meteoriciron": 4,
+		"*-steel": 5
+	},
+	miningspeedbytype: {
+		"oneshotprospectingpick-copper": {
+			"stone": 2.5,
+			"ore": 2.5
+		},
+		"oneshotprospectingpick-bismuthbronze": {
+			"stone": 3,
+			"ore": 3
+		},
+		"oneshotprospectingpick-tinbronze": {
+			"stone": 3.3,
+			"ore": 3.3
+		},
+		"oneshotprospectingpick-gold": {
+			"stone": 2.7,
+			"ore": 2.7
+		},
+		"oneshotprospectingpick-silver": {
+			"stone": 2.7,
+			"ore": 2.7
+		},
+		"oneshotprospectingpick-blackbronze": {
+			"stone": 3.5,
+			"ore": 3.5
+		},
+		"oneshotprospectingpick-iron": {
+			"stone": 4.5,
+			"ore": 4.5,
+			"metal": 4.5
+		},
+		"oneshotprospectingpick-meteoriciron": {
+			"stone": 4.75,
+			"ore": 4.75,
+			"metal": 4.75
+		},
+		"oneshotprospectingpick-steel": {
+			"stone": 5.5,
+			"ore": 5.5
+		}
+	},
+	attackpowerbytype: {
+		"oneshotprospectingpick-copper": 1.25,
+		"oneshotprospectingpick-bismuthbronze": 1.5,
+		"oneshotprospectingpick-tinbronze": 1.75,
+		"oneshotprospectingpick-gold": 1.75,
+		"oneshotprospectingpick-silver": 1.75,
+		"oneshotprospectingpick-blackbronze": 2,
+		"oneshotprospectingpick-iron": 2.25,
+		"oneshotprospectingpick-meteoriciron": 2.35,
+		"oneshotprospectingpick-steel": 2.5
+	},
+	durabilitybytype: {
+		"oneshotprospectingpick-gold": 60,
+		"oneshotprospectingpick-silver": 80,
+		"oneshotprospectingpick-copper": 150,
+		"oneshotprospectingpick-tinbronze": 250,
+		"oneshotprospectingpick-bismuthbronze": 300,
+		"oneshotprospectingpick-blackbronze": 350,
+		"oneshotprospectingpick-iron": 650,
+		"oneshotprospectingpick-meteoriciron": 900,
+		"oneshotprospectingpick-steel": 1625
+	},
+	creativeinventory: { "general": ["*"], "items": ["*"], "tools": ["*"] },
+	fpHandTransform: {
+		translation: { x: 0.046875, y: 0, z: 0 },
+		rotation: { x: 15, y: 15, z: 90 },
+		scale: 2.5
+	},
+	guiTransform: {
+		translation: { x: 0, y: 0, z: 0 },
+		rotation: { x: 107, y: -58, z: -16 },
+		origin: { x: 0.44, y: 0.3, z: 0.42 },
+		scale: 1.68
+	},
+	groundTransform: {
+		translation: { x: 0.3, y: 0.4, z: -0.2 },
+		rotation: { x: 0, y: 0, z: 0 },
+		origin: { x: 0.5, y: 0.45, z: 0.5 },
+		scale: 3.6
+	},
+	tpHandTransform: {
+		translation: { x: -0.77, y: -0.5, z: -0.08 },
+		rotation: { x: 90, y: 0, z: -10 },
+		scale: 1
+	}
+}
